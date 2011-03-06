@@ -1,8 +1,10 @@
+// To compile: mcs kinect-listener.cs -unsafe -debug -r:OpenNI.net.dll
 // So far I must run it with mono (probably 64-bit issue).
 
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
@@ -14,8 +16,11 @@ namespace KinectHack
 	{
 		public static void Main (string [] args)
 		{
+			console_output = args.Contains ("--console");
 			new Driver ().Run ();
 		}
+
+		static bool console_output;
 
 		public void Run ()
 		{
@@ -160,8 +165,9 @@ namespace KinectHack
 */
 							if (double.IsNaN (com.X) || double.IsNaN (com.Y) || com.Z == 0)
 								continue;
-							label = String.Format ("{{x:  {0}, y: {1}, z: {2} }}", com.X, com.Y, com.Z);
-							Console.WriteLine (label);
+							label = String.Format ("{{'x':  {0}, 'y': {1}, 'z': {2} }}".Replace ('\'', '"'), com.X, com.Y, com.Z);
+							if (console_output)
+								Console.WriteLine (label);
 							tcp_writer.Write (label);
 							tcp_writer.Flush ();
 						}

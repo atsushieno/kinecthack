@@ -23,19 +23,28 @@ server.listen (8080);
   
 // socket.io 
 var wsService = io.listen (server); 
-wsService.on ('connection', function (client) { 
-	// new client is here! 
-	client.on ('message', function () { log (server); }) 
-	client.on ('disconnect', function () { log (server); }) 
-}); 
-wsService.on ('error', function (client) {
-  process.stdout.write ('WebSocket connection error\n');
-});
+wsService.on ('clientConnect', function (client) { process.stdout.write ('new WebSocket client\n'); current_client = client; });
+wsService.on ('clientDisconnect', function (client) { process.stdout.write ('WebSocket client disconnected\n'); });
+wsService.on ('clientMessage', function (data, client) { process.stdout.write ('somehow received message from client: ' + data + '\n'); }); 
+wsService.on ('error', function (client) { process.stdout.write ('WebSocket client error\n'); });
+
+var current_client = null;
+
+var last = new Date ();
 
 tcpService = net.createServer (function (socket)  {
 	process.stdout.write ('new connection\n');
 	socket.on ('data', function (data)  {
-		process.stdout.write (data + '\n');
+		process.stdout.write ('new data' + data + '\n');
+		try {
+			JSON.parse (data);
+		} catch (e) {
+			return; // bogus input
+		}
+		//if (current_client != null && new Date () - last > 1000) // 1msg / 1sec.
+		//	client.send (JSON.stringify (JSON.parse (data)));
+		if (new Date () - last > 1000) // 1msg / 1sec.
+			wsService.broadcast (JSON.stringify (JSON.parse (data)));
 	});
 	socket.on ('error', function (c) {
 		process.stdout.write ('connection error: ' + c + '\n');

@@ -1,0 +1,33 @@
+<html>
+<head>
+<script type="text/javascript" src="scenejs.js"></script>
+<script type="text/javascript" src="WebAL-debug.js"></script>
+<script type="text/javascript" src="socket.io.js"></script>
+<script type="text/javascript" src="jquery-1.5.1.min.js"></script>
+<script type="text/javascript" src="alwalk.js"></script>
+</head>
+<body>
+<p>Click on the WebGL view, and walk around</p>
+
+<p>
+client	[<span id="socket-client">-</span>]<br />
+X	[<span id="socket-x">-</span>]<br />
+Y	[<span id="socket-y">-</span>]<br />
+Z	[<span id="socket-z">-</span>]
+</p>
+
+<canvas id="theCanvas" width="600" height="480">
+</canvas>
+
+<div>
+    Gain: <input id="gainSlider" type="range" min="0" max="100" />
+
+    X: <input id="xSlider" type="range" min="-5" max="5" step="0.2" />
+    Y: <input id="ySlider" type="range" min="-5" max="5" step="0.2" />
+    Z: <input id="zSlider" type="range" min="-5" max="5" step="0.2" />
+</div>
+
+<p>Using: <a href="http://www.openni.org/">OpenNI</a> (C# wrapper in <a href="https://github.com/OpenNI/OpenNI/tree/unstable">unstable</a>), <a href="http://nodejs.org/">node.js</a> (8838e14, probably), <a href="http://socket.io/">socket.io-node</a> (0.6), <a href="https://github.com/learnboost/socket.io">Socket.IO</a> (b6149c0), <a href="http://scenejs.org/">SceneJS</a> (0.7.9beta), <a href="http://jquery.com/">jQuery</a> 1.5.1, <a href="https://github.com/benvanik/WebAL">WebAL</a> (likely 5b08ea1)
+
+</body>
+</html>
