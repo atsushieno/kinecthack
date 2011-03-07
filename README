@@ -1,5 +1,25 @@
 This repository is to store my experimental hacks wrt kinect.
 
+It premises 5.1ch surrounded audio.
+
 See index.html for which components are used.
 
-Audio samples are available in WebAL sample 5.
+[Setup]
+
+Get audio samples or replace refs in alwalk.js (startSoundLoop()).
+They are available in WebAL sample 5.
+
+[Build]
+
+dmcs kinect-listener.cs -r:OpenNI.net.dll -unsafe
+
+[Run]
+
+node server.js (for web/tcp)
+mono kinect-listener.exe
+
+Then open http://localhost:8080
+
+Ignore the 3D view obstacles. They do nothing (yet).
+
+Walk around in front of kinect.
